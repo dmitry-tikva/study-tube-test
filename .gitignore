@@ -34,4 +34,6 @@ npm-debug.log*
 /plugins
 /sandbox
 /www
-
+/.angular
+/.angular/*
+.angular/*
