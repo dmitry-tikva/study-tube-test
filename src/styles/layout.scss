@@ -1,0 +1,120 @@
+#wrapper {
+	background: #fefefe;
+	min-height: 100%;
+  padding: 65px 0 0;
+
+  .main {
+    display: flex;
+    justify-content: center;
+
+    .inner {
+      width: 100%;
+      max-width: 1140px;
+      padding: 40px 0;
+    }
+  }
+
+	header {
+		display: flex;
+		padding: 10px;
+		align-items: center;
+		width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: #303F9F;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.4);
+
+    .nav {
+      color: #fff;
+      padding:  0 0 0 30px;
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+
+        li {
+          a {
+            color: #fff;
+            text-decoration: none;
+            padding: 7px 15px;
+            margin: 0 10px;
+            border-radius: 5px;
+
+            &:hover {
+              background: #242f77;
+            }
+          }
+
+          &.active a {
+            background: #3c4ec5;
+          }
+        }
+      }
+    }
+	}
+
+  .search-field {
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      background: none;
+    }
+  }
+
+  // item card
+  .item-card {
+    .card-avatar {
+      width: 70px;
+      height: 70px;
+      border: 1px solid #939393;
+      overflow: hidden;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    &.learning-card {
+      .mat-card-header-text {
+        margin-left: 0;
+
+        .status {
+          padding-top: 10px;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+
+          .mat-icon {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.align-between {
+    justify-content: space-between;
+  }
+
+  button {
+    &:first-child {
+      margin-right: auto;
+    }
+
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}

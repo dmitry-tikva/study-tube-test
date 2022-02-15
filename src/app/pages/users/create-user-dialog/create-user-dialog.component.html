@@ -1,0 +1,111 @@
+<h2 mat-dialog-title class="text-center">Create a new user</h2>
+
+<mat-dialog-content class="py-4">
+  <div class="avatar-holder">
+    <ngx-file-drop
+      (onFileDrop)="dropped($event)"
+      accept="image/x-png,image/gif,image/jpeg"
+      dropZoneClassName="drop-zone"
+      [multiple]="false"
+    >
+      <ng-template
+        ngx-file-drop-content-tmp
+        let-openFileSelector="openFileSelector"
+      >
+        <div class="drag-label" (click)="openFileSelector()">
+          <p>Upload user's avatar</p>
+        </div>
+      </ng-template>
+    </ngx-file-drop>
+    <div class="cropper-image" *ngIf="imageChangedEvent">
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="90"
+        [resizeToHeight]="90"
+        [format]="'png'"
+        [roundCropper]="true"
+        (imageCropped)="imageCropped($event)"
+      ></image-cropper>
+      <div class="button-back">
+        <button mat-mini-fab color="warn" (click)="clearSelectedImage()">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="formObj"
+    (keydown.enter)="!formObj.invalid ? submit() : null"
+    autocomplete="off"
+  >
+    <mat-form-field class="full-width mb-2">
+      <input
+        matInput
+        type="text"
+        formControlName="firstName"
+        placeholder="First name"
+        name="first-name"
+      />
+      <mat-error>
+        <app-control-messages
+          [control]="formObj.controls['firstName']"
+          class="error-msg m0"
+        ></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width mb-2">
+      <input
+        matInput
+        type="text"
+        formControlName="lastName"
+        placeholder="Last name"
+        name="last-name"
+      />
+      <mat-error>
+        <app-control-messages
+          [control]="formObj.controls['lastName']"
+          class="error-msg m0"
+        ></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        type="text"
+        formControlName="email"
+        placeholder="Email"
+        name="email"
+      />
+      <mat-error>
+        <app-control-messages
+          [control]="formObj.controls['email']"
+          class="error-msg m0"
+        ></app-control-messages>
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <small>* Please fill all required fields</small>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions" [class.align-between]="!loading">
+  <div *ngIf="error" class="response-error">{{ error }}</div>
+  <app-loader *ngIf="loading" [loading]="loading"></app-loader>
+
+  <button *ngIf="!loading" mat-stroked-button (click)="close()">Cancel</button>
+
+  <button
+    *ngIf="!loading"
+    mat-raised-button
+    color="primary"
+    (click)="submit()"
+    [disabled]="formObj.invalid || !formObj.dirty"
+  >
+    Create
+  </button>
+</mat-dialog-actions>

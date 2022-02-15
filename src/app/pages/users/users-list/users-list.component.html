@@ -1,0 +1,107 @@
+<div class="container">
+  <!-- Title row -->
+  <div class="row">
+    <div class="col-6">
+      <h1>Users list</h1>
+    </div>
+
+    <div class="col-6 text-right">
+      <button
+        class="create-button"
+        mat-raised-button
+        color="primary"
+        (click)="addNewUser()"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+
+  <!-- Search row -->
+  <div class="row">
+    <div class="col-12 search-field" *ngIf="customFilters">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Search user</mat-label>
+        <input
+          matInput
+          #searchInput
+          type="search"
+          (search)="changeSearch(searchInput.value)"
+          (blur)="searchBlur(searchInput.value)"
+        />
+        <button
+          *ngIf="searchInput.value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="searchInput.value = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-hint>Press enter to search</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Users list -->
+  <div class="row pt-4">
+    <!-- Loading row -->
+    <div class="col-12 pt-1" *ngIf="loading">
+      <app-loader [loading]="true"></app-loader>
+    </div>
+
+    <!-- Not found row -->
+    <div class="col-12 pt-1" *ngIf="!loading && users?.length === 0">
+      <p *ngIf="!customFilters?.search" class="p-4 text-center">No users yet</p>
+      <p *ngIf="customFilters?.search" class="p-4 text-center">
+        No users found by <strong>"{{ customFilters?.search }}</strong
+        >"
+      </p>
+    </div>
+
+    <!-- Users cards -->
+    <div class="col-12 col-md-6 py-3" *ngFor="let u of users">
+      <mat-card class="item-card">
+        <mat-card-header>
+          <div mat-card-avatar class="card-avatar">
+            <img [src]="u.image" [alt]="u.firstName + ' ' + u.lastName" />
+          </div>
+          <mat-card-title>{{ u.firstName + " " + u.lastName }}</mat-card-title>
+          <mat-card-subtitle
+            ><a [href]="'mailto:' + u.email">{{
+              u.email
+            }}</a></mat-card-subtitle
+          >
+        </mat-card-header>
+
+        <mat-card-actions class="text-right">
+          <button
+            class="show-assignments"
+            *ngIf="u.assignedLearnings?.length"
+            mat-stroked-button
+            color="primary"
+            (click)="showAssignments(u)"
+          >
+            Show assignments
+          </button>
+          <button
+            class="delete-user"
+            mat-stroked-button
+            color="warn"
+            (click)="deleteUser(u)"
+          >
+            Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Pagination row -->
+    <div class="col-12 pt-4" *ngIf="!loading && users?.length">
+      <app-pagination
+        [options]="paginationOptions"
+        (pageChange)="handlePageEvent($event)"
+      ></app-pagination>
+    </div>
+  </div>
+</div>

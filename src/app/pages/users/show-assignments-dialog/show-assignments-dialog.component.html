@@ -1,0 +1,21 @@
+<h2 mat-dialog-title class="text-center">User's assignments</h2>
+
+<mat-dialog-content class="py-4 text-center">
+  <mat-list>
+    <ng-container *ngFor="let a of user.assignedLearnings; let last = last">
+      <mat-list-item>{{ a.name }}</mat-list-item>
+      <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions">
+  <button
+    mat-raised-button
+    class="full-width"
+    color="primary"
+    (click)="close()"
+  >
+    Ok!
+  </button>
+</mat-dialog-actions>

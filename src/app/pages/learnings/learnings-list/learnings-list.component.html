@@ -1,0 +1,121 @@
+<div class="container">
+  <!-- Title row -->
+  <div class="row">
+    <div class="col-6">
+      <h1>Learnings list</h1>
+    </div>
+
+    <div class="col-6 text-right">
+      <button
+        class="create-button"
+        mat-raised-button
+        color="primary"
+        (click)="addNewLearning()"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+
+  <!-- Search row -->
+  <div class="row">
+    <div class="col-12 search-field" *ngIf="customFilters">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Search learning</mat-label>
+        <input
+          matInput
+          #searchInput
+          type="search"
+          (search)="changeSearch(searchInput.value)"
+          (blur)="searchBlur(searchInput.value)"
+        />
+        <button
+          *ngIf="searchInput.value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="searchInput.value = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-hint>Press enter to search</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Learnings list -->
+  <div class="row pt-4">
+    <!-- Loading row -->
+    <div class="col-12 pt-1" *ngIf="loading">
+      <app-loader [loading]="true"></app-loader>
+    </div>
+
+    <!-- Not found row -->
+    <div class="col-12 pt-1" *ngIf="!loading && learnings?.length === 0">
+      <p *ngIf="!customFilters?.search" class="p-4 text-center">
+        No learnings yet
+      </p>
+      <p *ngIf="customFilters?.search" class="p-4 text-center">
+        No learnings found by <strong>"{{ customFilters?.search }}"</strong>
+      </p>
+    </div>
+
+    <!-- Learnings cards -->
+    <div class="col-12 py-3" *ngFor="let l of learnings; let i = index">
+      <mat-card class="item-card learning-card">
+        <mat-card-header class="m0">
+          <mat-card-title [class.text-muted]="!l.active">{{
+            l.name
+          }}</mat-card-title>
+          <mat-card-subtitle>
+            <span *ngIf="l.active" class="status text-success">
+              <mat-icon color="success">check_circle</mat-icon> Active
+            </span>
+            <span *ngIf="!l.active" class="status text-danger">
+              <mat-icon color="warn">cancel</mat-icon> Archived
+            </span>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p [class.text-muted]="!l.active">{{ l.description }}</p>
+        </mat-card-content>
+
+        <mat-card-actions class="text-right">
+          <button
+            class="set-users-learning"
+            mat-stroked-button
+            color="primary"
+            (click)="setUsers(l, i)"
+          >
+            Set users
+          </button>
+          <button
+            class="archive-learning"
+            mat-stroked-button
+            [color]="l.active ? 'warn' : 'primary'"
+            (click)="toggleArchive(l, i)"
+          >
+            {{ l.active ? "Archive" : "Unarchive" }}
+          </button>
+          <button
+            class="delete-learning"
+            mat-stroked-button
+            color="warn"
+            (click)="deleteLearning(l)"
+          >
+            Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Pagination row -->
+    <div class="col-12 pt-4" *ngIf="!loading && learnings?.length">
+      <app-pagination
+        [options]="paginationOptions"
+        (pageChange)="handlePageEvent($event)"
+      ></app-pagination>
+    </div>
+  </div>
+</div>

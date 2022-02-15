@@ -1,0 +1,25 @@
+<h2 mat-dialog-title class="text-center">Are you sure?</h2>
+
+<mat-dialog-content class="py-4 text-center">
+  <p>
+    You are going to
+    <strong>{{ learning.active ? "archive" : "unarchive" }}</strong> learning.
+  </p>
+  <p><strong>Update?</strong></p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions" [class.align-between]="!loading">
+  <div *ngIf="error" class="response-error">{{ error }}</div>
+  <app-loader *ngIf="loading" [loading]="loading"></app-loader>
+
+  <button *ngIf="!loading" mat-stroked-button (click)="close()">Cancel</button>
+
+  <button
+    *ngIf="!loading"
+    mat-raised-button
+    [color]="learning.active ? 'warn' : 'primary'"
+    (click)="update()"
+  >
+    Update
+  </button>
+</mat-dialog-actions>

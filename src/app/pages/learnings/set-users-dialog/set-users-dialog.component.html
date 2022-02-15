@@ -1,0 +1,36 @@
+<h2 mat-dialog-title class="text-center">Learning's assigned users</h2>
+
+<mat-dialog-content class="py-4">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Assigned users</mat-label>
+    <mat-select
+      [(ngModel)]="assignedUsers"
+      (ngModelChange)="(assignedUsers)"
+      name="assignedUsers"
+      placeholder="Assigned users"
+      multiple
+    >
+      <mat-select-trigger>
+        {{ assignedUsers.length ? getUserFullName(assignedUsers[0]) : "" }}
+        <span *ngIf="assignedUsers?.length > 1">
+          (+{{ assignedUsers.length - 1 }}
+          {{ assignedUsers?.length === 2 ? "other" : "others" }})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let u of allUsers" [value]="u.id">{{
+        u.firstName + " " + u.lastName
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions" [class.align-between]="!loading">
+  <div *ngIf="error" class="response-error">{{ error }}</div>
+  <app-loader *ngIf="loading" [loading]="loading"></app-loader>
+
+  <button *ngIf="!loading" mat-stroked-button (click)="close()">Cancel</button>
+
+  <button *ngIf="!loading" mat-raised-button color="primary" (click)="submit()">
+    Update
+  </button>
+</mat-dialog-actions>

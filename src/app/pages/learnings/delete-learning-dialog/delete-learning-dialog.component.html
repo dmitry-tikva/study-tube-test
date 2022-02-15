@@ -1,0 +1,18 @@
+<h2 mat-dialog-title class="text-center">Are you sure?</h2>
+
+<mat-dialog-content class="py-4 text-center">
+  <p>You are going to remove learning.</p>
+  <p>All data will be lost.</p>
+  <p><strong>Delete?</strong></p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions" [class.align-between]="!loading">
+  <div *ngIf="error" class="response-error">{{ error }}</div>
+  <app-loader *ngIf="loading" [loading]="loading"></app-loader>
+
+  <button *ngIf="!loading" mat-stroked-button (click)="close()">Cancel</button>
+
+  <button *ngIf="!loading" mat-raised-button color="warn" (click)="delete()">
+    Delete
+  </button>
+</mat-dialog-actions>

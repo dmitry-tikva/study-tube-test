@@ -1,0 +1,10 @@
+<mat-paginator
+  (page)="handlePageEvent($event)"
+  [length]="options?.totRecords"
+  [pageSize]="options?.limit"
+  [showFirstLastButtons]="showFirstLastButtons"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="options?.offset - 1"
+  aria-label="Select page"
+>
+</mat-paginator>
